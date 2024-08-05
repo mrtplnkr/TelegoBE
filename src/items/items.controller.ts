@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -28,9 +29,9 @@ export class ItemsController {
     return 'Database seeded successfully!';
   }
 
-  @Get()
-  async findAll() {
-    return this.itemsService.findAll();
+  @Get(':id')
+  async findAll(@Param('id') id: string) {
+    return this.itemsService.findPerUser(+id);
   }
 
   @Get(':id')

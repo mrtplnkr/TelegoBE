@@ -1,9 +1,12 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { EntityManager, Repository } from 'typeorm';
 import { Item } from './entities/item.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { initialData } from './initialData';
 
 @Injectable()
 export class ItemsService {
@@ -14,38 +17,14 @@ export class ItemsService {
   ) {}
 
   async seedData(): Promise<void> {
-    const postData: Partial<Item>[] = [
-      {
-        text: 'one item',
-        done: false,
-        id: 11,
-        users: [
-          {
-            id: 2,
-            email: 'test@gmail.com',
-            password: '123password',
-            items: [],
-          },
-        ],
-      },
-      {
-        text: 'another item',
-        done: false,
-        id: 12,
-        users: [
-          {
-            id: 3,
-            email: 'stage@gmail.com',
-            password: 'password321',
-            items: [],
-          },
-        ],
-      },
-    ];
+    const postData: Partial<Item>[] = initialData;
 
     try {
-      postData.forEach((i: Item) => {
-        this.itemsRepository.save(i);
+      postData.forEach(async (i: Item) => {
+        const item = {...i};
+        const user = {...i.user};
+        item.user = user;
+        await this.itemsRepository.save(item);
       });
     } catch (error) {
       console.log('err', error);
@@ -53,18 +32,15 @@ export class ItemsService {
   }
 
   async create(createItemDto: CreateItemDto) {
-    //TODO
     const item = new Item({
       ...createItemDto,
     });
     await this.entityManager.save(item);
   }
 
-  async findAll() {
+  async findPerUser(userId: number) {
     return this.itemsRepository.find({
-      relations: {
-        users: true,
-      },
+      where: { userId: userId },
     });
   }
 
