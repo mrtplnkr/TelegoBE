@@ -12,16 +12,17 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
     private jwtService: JwtService,
     private config: ConfigService,
-    @InjectRepository(User)
-    private readonly UsersRepository: Repository<User>,
   ) {}
 
   async signin(dto: AuthDto): Promise<Tokens> {
-    const user = await this.UsersRepository.findOne({
+    const user = await this.usersRepository.findOne({
       where: {
         email: dto.email,
+        password: dto.password
       },
     });
 
