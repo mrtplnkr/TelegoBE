@@ -10,11 +10,7 @@ const configService = new ConfigService();
 
 export default new DataSource({
   type: 'sqlite',
-  // host: configService.getOrThrow('MYSQL_HOST'),
-  // port: configService.getOrThrow('MYSQL_PORT'),
-  database: './todo.db', //configService.getOrThrow('MYSQL_DATABASE')
-  // username: configService.getOrThrow('MYSQL_USERNAME'),
-  // password: configService.getOrThrow('MYSQL_PASSWORD'),
+  database: configService.getOrThrow('DATABASE_FILE'),
   migrations: ['migrations/**'],
   entities: [User, Item],
 });

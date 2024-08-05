@@ -13,7 +13,47 @@ export class ItemsService {
     private readonly entityManager: EntityManager,
   ) {}
 
+  async seedData(): Promise<void> {
+    const postData: Partial<Item>[] = [
+      {
+        text: 'one item',
+        done: false,
+        id: 11,
+        users: [
+          {
+            id: 2,
+            email: 'test@gmail.com',
+            password: '123password',
+            items: [],
+          },
+        ],
+      },
+      {
+        text: 'another item',
+        done: false,
+        id: 12,
+        users: [
+          {
+            id: 3,
+            email: 'stage@gmail.com',
+            password: 'password321',
+            items: [],
+          },
+        ],
+      },
+    ];
+
+    try {
+      postData.forEach((i: Item) => {
+        this.itemsRepository.save(i);
+      });
+    } catch (error) {
+      console.log('err', error);
+    }
+  }
+
   async create(createItemDto: CreateItemDto) {
+    //TODO
     const item = new Item({
       ...createItemDto,
     });

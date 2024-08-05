@@ -9,6 +9,6 @@ export class User extends AbstractEntity<User> {
   email: string;
   @Column()
   password: string;
-  @OneToMany(() => Item, (user) => user.users, { cascade: true })
+  @OneToMany(() => Item, (user) => user.users)
   items: Item[];
 }

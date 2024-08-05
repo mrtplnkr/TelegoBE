@@ -8,6 +8,6 @@ export class Item extends AbstractEntity<Item> {
   text: string;
   @Column()
   done: boolean;
-  @ManyToOne(() => User, (user) => user.items)
+  @ManyToOne(() => User, (user) => user.items, { cascade: true })
   users: User[];
 }

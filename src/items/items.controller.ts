@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  HttpStatus,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
@@ -17,7 +18,14 @@ export class ItemsController {
 
   @Post()
   async create(@Body() createItemDto: CreateItemDto) {
-    return this.itemsService.create(createItemDto);
+    this.itemsService.create(createItemDto);
+    return HttpStatus.OK;
+  }
+
+  @Get('seed')
+  async seedData(): Promise<string> {
+    await this.itemsService.seedData();
+    return 'Database seeded successfully!';
   }
 
   @Get()
