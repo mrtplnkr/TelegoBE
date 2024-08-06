@@ -1,12 +1,16 @@
 /* eslint-disable prettier/prettier */
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class AtGuard extends AuthGuard('jwt') {
-  constructor(private reflector: Reflector) {
+  constructor(private reflector: Reflector, private authService: AuthService) {
     super();
   }
 
@@ -18,12 +22,15 @@ export class AtGuard extends AuthGuard('jwt') {
 
     if (isPublic) return true;
 
-    const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
+    try {
+      const request = context.switchToHttp().getRequest();
+      const token = this.extractTokenFromHeader(request);
+      request['user'] = this.authService.verifyToken(token);
+    } catch (e) {
+      console.log('err123', e);
+    }
 
-    // request['user'] = this.authService.verifyToken(token);
-
-    return super.canActivate(context);
+    return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
