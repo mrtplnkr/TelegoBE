@@ -36,21 +36,21 @@ export class ItemsController {
 
   @Get(':id')
   async findAll(@Param('id') id: string) {
-    return this.itemsService.findPerUser(+id);
+    return await this.itemsService.findPerUser(+id);
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.itemsService.findOne(+id);
+    return await this.itemsService.findOne(+id);
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateItemDto: UpdateItemDto) {
-    return this.itemsService.update(+id, updateItemDto);
+    return await this.itemsService.update(+id, updateItemDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return this.itemsService.remove(+id);
+    return await this.itemsService.remove(+id);
   }
 }
