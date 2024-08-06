@@ -8,12 +8,16 @@ import {
   Param,
   Delete,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { AtGuard } from 'src/common/guards/at,guard';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('items')
+@UseGuards(AtGuard)
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
@@ -23,6 +27,7 @@ export class ItemsController {
     return HttpStatus.OK;
   }
 
+  @Public()
   @Get('seed')
   async seedData(): Promise<string> {
     await this.itemsService.seedData();

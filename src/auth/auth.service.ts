@@ -1,5 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/items/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -22,7 +26,7 @@ export class AuthService {
     const user = await this.usersRepository.findOne({
       where: {
         email: dto.email,
-        password: dto.password
+        password: dto.password,
       },
     });
 
@@ -49,5 +53,19 @@ export class AuthService {
     return {
       access_token: at,
     };
+  }
+
+  async verifyToken(token: string) {
+    if (!token) {
+      throw new UnauthorizedException();
+    }
+    try {
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: this.config.get<string>('MY_SECRET'),
+      });
+      return payload;
+    } catch {
+      throw new UnauthorizedException();
+    }
   }
 }
