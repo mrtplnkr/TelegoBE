@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { ItemsController } from './items.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,7 +8,6 @@ import { Item } from './entities/item.entity';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/common/strategies/JwtStrategy';
-import { CorsMiddleware } from 'src/common/middleware/cors.middleware';
 
 @Module({
   imports: [
@@ -21,11 +20,4 @@ import { CorsMiddleware } from 'src/common/middleware/cors.middleware';
   controllers: [ItemsController],
   providers: [ItemsService, AuthService, JwtService, JwtStrategy],
 })
-export class ItemsModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CorsMiddleware).forRoutes(
-      { path: 'example', method: RequestMethod.GET },
-      // Add other routes where you want to enable CORS
-    );
-  }
-}
+export class ItemsModule {}
