@@ -15,6 +15,7 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { AtGuard } from 'src/common/guards/at,guard';
 import { Public } from '../common/decorators/public.decorator';
+import { CORS } from '../common/decorators/cors.decorator';
 
 @Controller('items')
 @UseGuards(AtGuard)
