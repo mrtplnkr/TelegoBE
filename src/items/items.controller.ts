@@ -23,7 +23,7 @@ export class ItemsController {
 
   @Post()
   async create(@Body() createItemDto: CreateItemDto) {
-    this.itemsService.create(createItemDto);
+    await this.itemsService.create(createItemDto);
     return HttpStatus.OK;
   }
 

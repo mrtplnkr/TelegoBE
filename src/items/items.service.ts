@@ -20,13 +20,13 @@ export class ItemsService {
 
     try {
       postData.forEach(async (i: Item) => {
-        const item = {...i};
-        const user = {...i.user};
+        const item = { ...i };
+        const user = { ...i.user };
         item.user = user;
         await this.itemsRepository.save(item);
       });
     } catch (error) {
-      console.log('err', error);
+      console.log('err321', error);
     }
   }
 
@@ -38,7 +38,7 @@ export class ItemsService {
   }
 
   async findPerUser(userId: number) {
-    return this.itemsRepository.find({
+    return await this.itemsRepository.find({
       where: { userId: userId },
     });
   }
