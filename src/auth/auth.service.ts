@@ -46,18 +46,19 @@ export class AuthService {
     const [at] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('MY_SECRET'),
-        expiresIn: '15m',
+        expiresIn: '55m',
       }),
     ]);
 
     return {
       access_token: at,
+      id: userId,
     };
   }
 
   async verifyToken(token: string) {
     if (!token) {
-      throw new UnauthorizedException();
+      // throw new UnauthorizedException();
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
@@ -65,7 +66,7 @@ export class AuthService {
       });
       return payload;
     } catch {
-      throw new UnauthorizedException();
+      // throw new UnauthorizedException();
     }
   }
 }

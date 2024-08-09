@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { Tokens } from './types/token.type';
 import { AuthDto } from './dto/auth.dto';

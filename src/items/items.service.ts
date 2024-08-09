@@ -38,9 +38,19 @@ export class ItemsService {
   }
 
   async findPerUser(userId: number) {
-    return await this.itemsRepository.find({
+    const entities = await this.itemsRepository.find({
       where: { userId: userId },
     });
+
+    const dtos = entities.map((x: Item) => {
+      return {
+        id: x.id,
+        text: x.text,
+        done: x.done,
+      };
+    });
+
+    return dtos;
   }
 
   async findOne(id: number) {

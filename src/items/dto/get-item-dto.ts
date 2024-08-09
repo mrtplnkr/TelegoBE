@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-export class UpdateItemDto {
+export class GetItemDto {
+  id: number;
   text: string;
   done: boolean;
 }
