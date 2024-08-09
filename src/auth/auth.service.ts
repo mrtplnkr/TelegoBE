@@ -58,7 +58,7 @@ export class AuthService {
 
   async verifyToken(token: string) {
     if (!token) {
-      // throw new UnauthorizedException();
+      throw new UnauthorizedException();
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
@@ -66,7 +66,7 @@ export class AuthService {
       });
       return payload;
     } catch {
-      // throw new UnauthorizedException();
+      throw new UnauthorizedException();
     }
   }
 }
