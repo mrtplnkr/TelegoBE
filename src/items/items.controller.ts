@@ -26,13 +26,6 @@ export class ItemsController {
     return await this.itemsService.create(createItemDto);
   }
 
-  @Public()
-  @Get('seed')
-  async seedData(): Promise<string> {
-    await this.itemsService.seedData();
-    return 'Database seeded successfully!';
-  }
-
   @Get(':id')
   async findAll(@Param('id') id: string) {
     return await this.itemsService.findPerUser(+id);
@@ -52,5 +45,12 @@ export class ItemsController {
   async remove(@Param('id') id: string) {
     await this.itemsService.remove(+id);
     return 200;
+  }
+
+  @Public()
+  @Get('seed')
+  async seedData(): Promise<string> {
+    await this.itemsService.seedData();
+    return 'Database seeded successfully!';
   }
 }

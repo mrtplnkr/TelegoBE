@@ -21,7 +21,7 @@ export class ItemsService {
     try {
       postData.forEach(async (i: Item) => {
         const item = { ...i };
-        const user = { ...i.user };
+        const user = item.user;
         item.user = user;
         await this.itemsRepository.save(item);
       });
