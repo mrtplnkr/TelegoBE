@@ -21,10 +21,9 @@ import { Public } from '../common/decorators/public.decorator';
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
-  @Post()
+  @Post('create')
   async create(@Body() createItemDto: CreateItemDto) {
-    await this.itemsService.create(createItemDto);
-    return HttpStatus.OK;
+    return await this.itemsService.create(createItemDto);
   }
 
   @Public()
@@ -51,6 +50,7 @@ export class ItemsController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.itemsService.remove(+id);
+    await this.itemsService.remove(+id);
+    return 200;
   }
 }

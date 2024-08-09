@@ -32,9 +32,11 @@ export class ItemsService {
 
   async create(createItemDto: CreateItemDto) {
     const item = new Item({
+      done: false,
       ...createItemDto,
     });
     await this.entityManager.save(item);
+    return item.id;
   }
 
   async findPerUser(userId: number) {
